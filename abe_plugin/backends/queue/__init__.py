@@ -1,9 +1,9 @@
-"""Queue backend implementations for Slack MCP server.
+"""Queue backend implementations for abstract backend.
 
 This package contains message queue backend implementations that integrate
-with the Slack MCP server's plugin system.
+with the abstract backend's plugin system.
 """
 
-from .redis import RedisMessageQueueBackend
+from queue.service.redis import RedisMessageQueueBackend
 
 __all__ = ["RedisMessageQueueBackend"]
