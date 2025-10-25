@@ -49,8 +49,8 @@ sequenceDiagram
 The Slack MCP Server uses Python's entry points system for plugin discovery. The Redis backend is registered as:
 
 ```toml
-[project.entry-points."slack_mcp.backends.queue"]
-redis = "slack_mcp_plugin.backends.queue.redis:RedisMessageQueueBackend"
+[project.entry-points."slack_mcp.backends.queue.service"]
+redis = "abe_plugin.backends.queue.service.redis:RedisMessageQueueBackend"
 ```
 
 When you set `QUEUE_BACKEND=redis` in your environment, the MCP Server automatically discovers and loads the Redis backend.
@@ -70,7 +70,7 @@ The Redis backend uses **Redis Streams** for reliable message queueing with the 
 ### Core Operations
 
 ```python
-from slack_mcp_plugin.backends.queue import RedisMessageQueueBackend
+from abe_plugin.backends.queue import RedisMessageQueueBackend
 
 # Initialize from environment
 backend = RedisMessageQueueBackend.from_env()
@@ -226,8 +226,9 @@ export REDIS_URL=redis://localhost:6379/0
 ```
 
 ### ✅ **Start Using**
+
 ```python
-from slack_mcp_plugin.backends.queue import RedisMessageQueueBackend
+from abe_plugin.backends.queue import RedisMessageQueueBackend
 
 backend = RedisMessageQueueBackend.from_env()
 await backend.publish("slack:events", {"type": "message"})

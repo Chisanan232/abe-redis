@@ -191,7 +191,7 @@ import json
 import logging
 from typing import Any, AsyncIterator, Dict, Optional
 
-from slack_mcp_plugin.backends.base.protocol import QueueBackend
+from abe_plugin.backends.base.protocol import QueueBackend
 
 logger = logging.getLogger(__name__)
 
@@ -342,7 +342,7 @@ Test integration with the Slack MCP server:
 ```python
 import os
 import pytest
-from slack_mcp_plugin.backends import get_backend
+from abe_plugin.backends import get_backend
 
 @pytest.mark.integration
 async def test_backend_integration():

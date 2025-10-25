@@ -1,15 +1,15 @@
 [run]
 parallel = True
 relative_files = True
-#source=./slack_mcp_plugin/
-include=./slack_mcp_plugin/
+#source=./abe_plugin/
+include=./abe_plugin/
 omit =
 #    */__init__.py
-    ./slack_mcp_plugin/__main__.py
+    ./abe_plugin/__main__.py
 
 [paths]
 source =
-    ./slack_mcp_plugin/
+    ./abe_plugin/
 
 [report]
 # Regexes for lines to exclude from consideration

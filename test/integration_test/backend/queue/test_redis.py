@@ -11,7 +11,7 @@ from typing import Any, AsyncGenerator
 import pytest
 import pytest_asyncio
 
-from slack_mcp_plugin.backends.queue.redis import RedisMessageQueueBackend
+from abe_plugin.backends.queue.redis import RedisMessageQueueBackend
 
 # Skip all tests if integration tests are explicitly disabled
 pytestmark = pytest.mark.skipif(

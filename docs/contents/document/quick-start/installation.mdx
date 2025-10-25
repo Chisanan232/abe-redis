@@ -228,7 +228,7 @@ Test that everything is working correctly:
 ```python
 # test_redis_backend.py
 import asyncio
-from slack_mcp_plugin.backends.queue import RedisMessageQueueBackend
+from abe_plugin.backends.queue import RedisMessageQueueBackend
 
 async def test_connection():
     # Create backend from environment
@@ -352,7 +352,7 @@ redis-cli -h localhost -p 6379 ping
 
 ### Import Errors
 
-**Problem**: `ModuleNotFoundError: No module named 'slack_mcp_plugin'`
+**Problem**: `ModuleNotFoundError: No module named 'abe_plugin'`
 
 **Solution**:
 ```bash

@@ -157,7 +157,7 @@ QUEUE_BACKEND=redis
 uv run pytest
 
 # Run with coverage
-uv run pytest --cov=slack_mcp_plugin --cov-report=html
+uv run pytest --cov=abe_plugin --cov-report=html
 
 # Run only unit tests
 uv run pytest test/unit_test/
@@ -181,20 +181,20 @@ uv run pytest test/unit_test/test_redis_backend.py
 uv run pytest -v
 
 # With coverage report
-uv run pytest --cov=slack_mcp_plugin --cov-report=term-missing
+uv run pytest --cov=abe_plugin --cov-report=term-missing
 ```
 
 ### Code Quality
 
 ```bash
 # Format code
-uv run black slack_mcp_plugin/ test/
+uv run black abe_plugin/ test/
 
 # Lint code
-uv run pylint slack_mcp_plugin/
+uv run pylint abe_plugin/
 
 # Type checking
-uv run mypy slack_mcp_plugin/
+uv run mypy abe_plugin/
 
 # Run all pre-commit hooks
 uv run pre-commit run --all-files

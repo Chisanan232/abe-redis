@@ -62,7 +62,7 @@ That's it! Your Slack MCP Server is now using Redis for event processing.
 
 ```python
 import asyncio
-from slack_mcp_plugin.backends.queue import RedisMessageQueueBackend
+from abe_plugin.backends.queue import RedisMessageQueueBackend
 
 async def publish_example():
     # Create backend from environment variables
@@ -86,7 +86,7 @@ asyncio.run(publish_example())
 
 ```python
 import asyncio
-from slack_mcp_plugin.backends.queue import RedisMessageQueueBackend
+from abe_plugin.backends.queue import RedisMessageQueueBackend
 
 async def consume_example():
     backend = RedisMessageQueueBackend.from_env()
@@ -108,7 +108,7 @@ asyncio.run(consume_example())
 
 ```python
 import asyncio
-from slack_mcp_plugin.backends.queue import RedisMessageQueueBackend
+from abe_plugin.backends.queue import RedisMessageQueueBackend
 
 async def distributed_consumer(worker_id: int):
     backend = RedisMessageQueueBackend.from_env()

@@ -84,7 +84,7 @@ docker run -d --name redis-mcp -p 6379:6379 redis:7-alpine
 
 ```python
 import asyncio
-from slack_mcp_plugin.backends.queue import RedisMessageQueueBackend
+from abe_plugin.backends.queue import RedisMessageQueueBackend
 
 async def main():
     # Create backend from environment variables
@@ -164,7 +164,7 @@ docker run -d --name redis-dev -p 6379:6379 redis:7-alpine
 uv run pytest
 
 # Run tests with coverage
-uv run pytest --cov=slack_mcp_plugin --cov-report=html
+uv run pytest --cov=abe_plugin --cov-report=html
 ```
 
 ### Code Quality
@@ -180,16 +180,16 @@ Run quality checks:
 
 ```bash
 # Format code
-uv run black slack_mcp_plugin/ test/
+uv run black abe_plugin/ test/
 
 # Lint code
-uv run pylint slack_mcp_plugin/
+uv run pylint abe_plugin/
 
 # Sort imports
-uv run isort slack_mcp_plugin/ test/
+uv run isort abe_plugin/ test/
 
 # Type check
-uv run mypy slack_mcp_plugin/
+uv run mypy abe_plugin/
 ```
 
 ## Contributing
