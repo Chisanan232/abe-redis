@@ -218,7 +218,7 @@ class RedisMessageQueueBackend(QueueBackend):
         if self._client is None:
             raise RuntimeError("Redis client is not initialized")
 
-        # Stream pattern for all Slack events
+        # Stream pattern for all Abstract Backend events
         stream_pattern = "slack:*"
         consumer_name = f"consumer-{id(self)}"
 

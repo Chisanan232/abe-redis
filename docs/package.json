@@ -1,5 +1,5 @@
 {
-  "name": "slack-mcp-server-mq-template-docs",
+  "name": "abstract-backend-redis-docs",
   "version": "0.0.0",
   "private": true,
   "scripts": {

@@ -6,7 +6,7 @@ sidebar_position: 1
 
 # Requirements
 
-Before using the Redis message queue backend with Slack MCP Server, ensure your system meets the following requirements:
+Before using the Redis message queue backend with Abstract Backend, ensure your system meets the following requirements:
 
 ## Quick Checklist
 
@@ -82,7 +82,7 @@ sudo systemctl start redis-server
 # Use Docker or download from https://github.com/microsoftarchive/redis/releases
 ```
 
-## Slack MCP Server Integration
+## Abstract Backend Integration
 
 ### Required Packages
 
@@ -94,14 +94,14 @@ pip install abe-redis
 
 This automatically installs:
 - `redis[hiredis]>=6.4.0` - Redis client with high-performance parser
-- `slack-mcp>=0.0.1` - Slack MCP Server core (if not already installed)
+- `abstract-backend>=0.0.1` - Abstract Backend core (if not already installed)
 
-### Optional: Slack MCP Server
+### Optional: Abstract Backend
 
-If you're running the full Slack MCP Server:
+If you're running the full Abstract Backend:
 
 ```bash
-pip install slack-mcp-server
+pip install abstract-backend
 ```
 
 ## Redis Deployment Options

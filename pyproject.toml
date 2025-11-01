@@ -35,14 +35,14 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Chisanan232/MCP-BackEnd-Message-Queue-Redis"
-Repository = "https://github.com/Chisanan232/MCP-BackEnd-Message-Queue-Redis"
-Documentation = "https://chisanan232.github.io/MCP-BackEnd-Message-Queue-Redis/"
-Changelog = "https://chisanan232.github.io/MCP-BackEnd-Message-Queue-Redis/docs/next/changelog"
+Homepage = "https://github.com/Chisanan232/abe-redis"
+Repository = "https://github.com/Chisanan232/abe-redis"
+Documentation = "https://chisanan232.github.io/abe-redis/"
+Changelog = "https://chisanan232.github.io/abe-redis/docs/next/changelog"
 "Project Management" = "https://app.clickup.com/9018752317/v/f/90185744047/90184991515"
 
-[project.entry-points."abe.backends.queue.service"]
-redis = "abe_plugin.backends.queue.service.redis:RedisMessageQueueBackend"
+[project.entry-points."abe.backends.message_queue.service"]
+redis = "abe_plugin.backends.message_queue.service.redis:RedisMessageQueueBackend"
 
 [dependency-groups]
 dev = [

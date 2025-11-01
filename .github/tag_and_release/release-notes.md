@@ -10,8 +10,8 @@
 
 1. Provide the [details] in [documentation].
 
-[details]: https://chisanan232.github.io/MCP-BackEnd-Message-Queue-Redis/docs/next/introduction
-[documentation]: https://chisanan232.github.io/MCP-BackEnd-Message-Queue-Redis/
+[details]: https://chisanan232.github.io/abe-redis/docs/next/introduction
+[documentation]: https://chisanan232.github.io/abe-redis/
 
 
 ### 🤖 Upgrade dependencies

@@ -6,13 +6,13 @@ import remarkMdxCodeMeta from 'remark-mdx-code-meta';
 
 const config: Config = {
   title: 'abe-redis',
-  tagline: '🐍 A Redis-based abstracted backend (abe) for Slack MCP server message queue.',
+  tagline: '🐍 A Redis-based backend (abe) implementation for Abstract Backend message queue.',
   favicon: 'img/python_logo_icon.png',
 
   // Set the production url of your site here
   url: 'https://chisanan232.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
-  baseUrl: '/MCP-BackEnd-Message-Queue-Redis/',
+  baseUrl: '/abe-redis/',
   projectName: 'chisanan232.github.io',
   organizationName: 'Chisanan232',
   trailingSlash: false,
@@ -66,7 +66,7 @@ const config: Config = {
         showLastUpdateTime: true,
         showLastUpdateAuthor: true,
         editUrl:
-          'https://github.com/Chisanan232/MCP-BackEnd-Message-Queue-Redis/tree/master/docs/',
+          'https://github.com/Chisanan232/abe-redis/tree/master/docs/',
         versions: {
           current: {
             label: 'Next',
@@ -90,7 +90,7 @@ const config: Config = {
         showLastUpdateTime: true,
         showLastUpdateAuthor: true,
         editUrl:
-          'https://github.com/Chisanan232/MCP-BackEnd-Message-Queue-Redis/tree/master/docs/',
+          'https://github.com/Chisanan232/abe-redis/tree/master/docs/',
         versions: {
           current: {
             label: 'Next',
@@ -111,7 +111,7 @@ const config: Config = {
         routeBasePath: 'blog',
         showReadingTime: true,
         editUrl:
-          'https://github.com/Chisanan232/MCP-BackEnd-Message-Queue-Redis/tree/master/docs/',
+          'https://github.com/Chisanan232/abe-redis/tree/master/docs/',
       },
     ],
     [
@@ -182,7 +182,7 @@ const config: Config = {
           dropdownItemsAfter: [],
         },
         {
-          href: 'https://github.com/Chisanan232/MCP-BackEnd-Message-Queue-Redis',
+          href: 'https://github.com/Chisanan232/abe-redis',
           label: 'GitHub',
           position: 'right',
         },
@@ -213,11 +213,11 @@ const config: Config = {
           items: [
             {
               label: 'GitHub Issues',
-              href: 'https://github.com/Chisanan232/MCP-BackEnd-Message-Queue-Redis/issues',
+              href: 'https://github.com/Chisanan232/abe-redis/issues',
             },
             {
               label: 'GitHub Discussions',
-              href: 'https://github.com/Chisanan232/MCP-BackEnd-Message-Queue-Redis/discussions',
+              href: 'https://github.com/Chisanan232/abe-redis/discussions',
             },
           ],
         },
@@ -226,7 +226,7 @@ const config: Config = {
           items: [
             {
               label: 'GitHub Repository',
-              href: 'https://github.com/Chisanan232/MCP-BackEnd-Message-Queue-Redis',
+              href: 'https://github.com/Chisanan232/abe-redis',
             },
           ],
         },
@@ -247,7 +247,7 @@ const config: Config = {
       tagName: 'link',
       attributes: {
         rel: 'canonical',
-        href: 'https://chisanan232.github.io/MCP-BackEnd-Message-Queue-Redis/docs/introduction',
+        href: 'https://chisanan232.github.io/abe-redis/docs/introduction',
       },
     },
   ],

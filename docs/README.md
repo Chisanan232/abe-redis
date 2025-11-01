@@ -1,4 +1,4 @@
-# 📚 Slack-MCP-Server-MQ-Template Documentation
+# 📚 abstract-backend-MQ-Template Documentation
 
 Welcome to the documentation site for UV-Template! This site is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
 

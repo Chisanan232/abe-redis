@@ -484,7 +484,7 @@ class TestRedisIntegrationEndToEnd:
     @pytest.mark.asyncio
     async def test_full_publish_consume_workflow(self, clean_redis_backend: RedisMessageQueueBackend) -> None:
         """Test complete workflow: publish -> consume -> acknowledge."""
-        # Simulate real Slack event
+        # Simulate real Abstract Backend event
         slack_event = {
             "token": "test-token",
             "team_id": "T123456",

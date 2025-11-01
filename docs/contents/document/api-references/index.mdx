@@ -6,16 +6,16 @@ sidebar_position: 3
 
 # API References
 
-This section provides detailed documentation for implementing and extending message queue components for the Slack MCP server. The message queue system enables flexible webhook event processing through pluggable backend implementations.
+This section provides detailed documentation for implementing and extending message queue components for the Abstract Backend server. The message queue system enables flexible webhook event processing through pluggable backend implementations.
 
 ## Overview
 
-The Slack MCP server supports a flexible message queue architecture that allows users to:
+The Abstract Backend server supports a flexible message queue architecture that allows users to:
 
 - **Extend existing backends**: Implement custom message queue backends using the `QueueBackend` protocol
-- **Plugin architecture**: Install message queue components via `pip install <slack-mcp-server-mq-plugin>`
+- **Plugin architecture**: Install message queue components via `pip install <abstract-backend-mq-plugin>`
 - **Environment-based configuration**: Configure queue backends using environment variables
-- **Seamless integration**: Zero-code integration with the Slack MCP server
+- **Seamless integration**: Zero-code integration with the Abstract Backend server
 
 ## Architecture Design
 
@@ -23,7 +23,7 @@ The Slack MCP server supports a flexible message queue architecture that allows 
 
 ```mermaid
 graph TB
-    A[Slack Event] --> B[Slack MCP Server]
+    A[Abstract Backend Event] --> B[Abstract Backend]
     B --> C[Queue Backend Interface]
     C --> D[Your Custom MQ Backend]
     C --> E[Memory Backend]
@@ -40,10 +40,10 @@ graph TB
 
 ### Plugin Discovery System
 
-The Slack MCP server uses Python's entry points system to automatically discover and load message queue backends:
+The Abstract Backend server uses Python's entry points system to automatically discover and load message queue backends:
 
 ```toml
-[project.entry-points."slack_mcp.backends.queue"]
+[project.entry-points."abstract_backend.backends.queue"]
 your_backend_name = "your_package.module:YourBackendClass"
 ```
 
@@ -237,7 +237,7 @@ class YourMQBackend(QueueBackend):
 Add the entry point to your `pyproject.toml`:
 
 ```toml
-[project.entry-points."slack_mcp.backends.queue"]
+[project.entry-points."abstract_backend.backends.queue"]
 your_backend = "your_package.backends.your_backend:YourMQBackend"
 ```
 
@@ -337,7 +337,7 @@ class TestYourMQBackend:
 
 ### Integration Testing
 
-Test integration with the Slack MCP server:
+Test integration with the Abstract Backend server:
 
 ```python
 import os
@@ -346,7 +346,7 @@ from abe_plugin.backends import get_backend
 
 @pytest.mark.integration
 async def test_backend_integration():
-    """Test backend integration with Slack MCP server."""
+    """Test backend integration with Abstract Backend server."""
     os.environ["QUEUE_BACKEND"] = "your_backend"
     os.environ["MQ_HOST"] = "localhost"
     # Set other required env vars
@@ -471,7 +471,7 @@ python -m twine upload dist/*
 
 3. Users can then install:
 ```bash
-pip install your-slack-mcp-backend
+pip install your-abstract-backend-backend
 ```
 
 ## Troubleshooting
@@ -480,7 +480,7 @@ pip install your-slack-mcp-backend
 
 1. **Backend Not Found**
    - Verify entry point configuration in `pyproject.toml`
-   - Ensure package is installed in the same environment as Slack MCP server
+   - Ensure package is installed in the same environment as Abstract Backend server
 
 2. **Connection Errors**
    - Check network connectivity
@@ -511,7 +511,7 @@ logger = logging.getLogger("your_package.backends")
 Use environment variables for debugging:
 
 ```bash
-export SLACK_MCP_DEBUG=true
+export ABSTRACT_BACKEND_DEBUG=true
 export QUEUE_BACKEND_DEBUG=true
 ```
 
