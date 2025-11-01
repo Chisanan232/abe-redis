@@ -77,7 +77,7 @@ export REDIS_URL=redis://localhost:6379/0
 Using Docker (recommended):
 
 ```bash
-docker run -d --name redis-mcp -p 6379:6379 redis:7-alpine
+docker run -d --name test-redis -p 6379:6379 redis:7-alpine
 ```
 
 ### Basic Usage
