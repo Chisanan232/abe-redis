@@ -1,20 +1,20 @@
-# Redis Message Queue Backend for Slack MCP Server
+# Redis Message Queue Backend for Abstract Backend
 
-A production-ready Redis Streams-based message queue backend implementation for the [Slack MCP Server](https://github.com/Chisanan232/slack-mcp-server) project. This backend extends message queue capabilities to support Redis, enabling reliable, scalable, and high-performance Slack event processing.
+A production-ready Redis Streams-based message queue backend implementation for the [Abstract Backend](https://github.com/Chisanan232/abstract-backend) project. This backend extends message queue capabilities to support Redis, enabling reliable, scalable, and high-performance Abstract Backend event processing.
 
 ## Status & Quality
 
 ### CI/CD & Testing
-[![CI](https://github.com/Chisanan232/MCP-BackEnd-Message-Queue-Redis/actions/workflows/ci.yaml/badge.svg)](https://github.com/Chisanan232/MCP-BackEnd-Message-Queue-Redis/actions/workflows/ci.yaml)
-[![Documentation](https://github.com/Chisanan232/MCP-BackEnd-Message-Queue-Redis/actions/workflows/documentation.yaml/badge.svg)](https://github.com/Chisanan232/MCP-BackEnd-Message-Queue-Redis/actions/workflows/documentation.yaml)
-[![Documentation Build Check](https://github.com/Chisanan232/MCP-BackEnd-Message-Queue-Redis/actions/workflows/docs-build-check.yaml/badge.svg)](https://github.com/Chisanan232/MCP-BackEnd-Message-Queue-Redis/actions/workflows/docs-build-check.yaml)
+[![CI](https://github.com/Chisanan232/abe-redis/actions/workflows/ci.yaml/badge.svg)](https://github.com/Chisanan232/abe-redis/actions/workflows/ci.yaml)
+[![Documentation](https://github.com/Chisanan232/abe-redis/actions/workflows/documentation.yaml/badge.svg)](https://github.com/Chisanan232/abe-redis/actions/workflows/documentation.yaml)
+[![Documentation Build Check](https://github.com/Chisanan232/abe-redis/actions/workflows/docs-build-check.yaml/badge.svg)](https://github.com/Chisanan232/abe-redis/actions/workflows/docs-build-check.yaml)
 
 ### Code Coverage & Quality
-[![codecov](https://codecov.io/gh/Chisanan232/MCP-BackEnd-Message-Queue-Redis/branch/master/graph/badge.svg)](https://codecov.io/gh/Chisanan232/MCP-BackEnd-Message-Queue-Redis)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Chisanan232_MCP-BackEnd-Message-Queue-Redis&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Chisanan232_MCP-BackEnd-Message-Queue-Redis)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Chisanan232_MCP-BackEnd-Message-Queue-Redis&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=Chisanan232_MCP-BackEnd-Message-Queue-Redis)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Chisanan232_MCP-BackEnd-Message-Queue-Redis&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Chisanan232_MCP-BackEnd-Message-Queue-Redis)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Chisanan232_MCP-BackEnd-Message-Queue-Redis&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Chisanan232_MCP-BackEnd-Message-Queue-Redis)
+[![codecov](https://codecov.io/gh/Chisanan232/abe-redis/branch/master/graph/badge.svg)](https://codecov.io/gh/Chisanan232/abe-redis)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Chisanan232_abe-redis&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Chisanan232_abe-redis)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Chisanan232_abe-redis&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=Chisanan232_abe-redis)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Chisanan232_abe-redis&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Chisanan232_abe-redis)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Chisanan232_abe-redis&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Chisanan232_abe-redis)
 
 ### Code Style & Standards
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
@@ -36,7 +36,7 @@ A production-ready Redis Streams-based message queue backend implementation for 
 
 ## Overview
 
-**abe-redis** is a Redis Streams-based message queue backend that integrates seamlessly with the Slack MCP Server's component loading mechanism. It provides a reliable, scalable solution for handling Slack events using Redis as the message queue infrastructure.
+**abe-redis** is a Redis Streams-based message queue backend that integrates seamlessly with the Abstract Backend's component loading mechanism. It provides a reliable, scalable solution for handling Abstract Backend events using Redis as the message queue infrastructure.
 
 ### Key Features
 
@@ -77,14 +77,15 @@ export REDIS_URL=redis://localhost:6379/0
 Using Docker (recommended):
 
 ```bash
-docker run -d --name redis-mcp -p 6379:6379 redis:7-alpine
+docker run -d --name test-redis -p 6379:6379 redis:7-alpine
 ```
 
 ### Basic Usage
 
 ```python
 import asyncio
-from slack_mcp_plugin.backends.queue import RedisMessageQueueBackend
+from abe_plugin.backends.message_queue import RedisMessageQueueBackend
+
 
 async def main():
     # Create backend from environment variables
@@ -99,6 +100,7 @@ async def main():
         break
 
     await backend.close()
+
 
 asyncio.run(main())
 ```
@@ -128,16 +130,16 @@ The Redis backend uses **Redis Streams** for reliable message queueing:
 
 For comprehensive documentation, including API references, examples, and development guides:
 
-📚 **[Full Documentation](https://chisanan232.github.io/MCP-BackEnd-Message-Queue-Redis/)**
+📚 **[Full Documentation](https://chisanan232.github.io/abe-redis/)**
 
 ### Quick Links
 
-- [Introduction](https://chisanan232.github.io/MCP-BackEnd-Message-Queue-Redis/docs/introduction)
-- [Quick Start Guide](https://chisanan232.github.io/MCP-BackEnd-Message-Queue-Redis/docs/quick-start/quick-start)
-- [Installation Guide](https://chisanan232.github.io/MCP-BackEnd-Message-Queue-Redis/docs/quick-start/installation)
-- [API Reference](https://chisanan232.github.io/MCP-BackEnd-Message-Queue-Redis/docs/api-references/api-references)
-- [Development Guide](https://chisanan232.github.io/MCP-BackEnd-Message-Queue-Redis/dev/development)
-- [CI/CD Documentation](https://chisanan232.github.io/MCP-BackEnd-Message-Queue-Redis/dev/ci-cd/)
+- [Introduction](https://chisanan232.github.io/abe-redis/docs/introduction)
+- [Quick Start Guide](https://chisanan232.github.io/abe-redis/docs/quick-start/quick-start)
+- [Installation Guide](https://chisanan232.github.io/abe-redis/docs/quick-start/installation)
+- [API Reference](https://chisanan232.github.io/abe-redis/docs/api-references/api-references)
+- [Development Guide](https://chisanan232.github.io/abe-redis/dev/development)
+- [CI/CD Documentation](https://chisanan232.github.io/abe-redis/dev/ci-cd/)
 
 ## Development
 
@@ -151,8 +153,8 @@ For comprehensive documentation, including API references, examples, and develop
 
 ```bash
 # Clone the repository
-git clone https://github.com/Chisanan232/MCP-BackEnd-Message-Queue-Redis.git
-cd MCP-BackEnd-Message-Queue-Redis
+git clone https://github.com/Chisanan232/abe-redis.git
+cd abe-redis
 
 # Install dependencies
 uv sync
@@ -164,7 +166,7 @@ docker run -d --name redis-dev -p 6379:6379 redis:7-alpine
 uv run pytest
 
 # Run tests with coverage
-uv run pytest --cov=slack_mcp_plugin --cov-report=html
+uv run pytest --cov=abe_plugin --cov-report=html
 ```
 
 ### Code Quality
@@ -180,21 +182,21 @@ Run quality checks:
 
 ```bash
 # Format code
-uv run black slack_mcp_plugin/ test/
+uv run black abe_plugin/ test/
 
 # Lint code
-uv run pylint slack_mcp_plugin/
+uv run pylint abe_plugin/
 
 # Sort imports
-uv run isort slack_mcp_plugin/ test/
+uv run isort abe_plugin/ test/
 
 # Type check
-uv run mypy slack_mcp_plugin/
+uv run mypy abe_plugin/
 ```
 
 ## Contributing
 
-We welcome contributions! Please see our [Contributing Guide](https://chisanan232.github.io/MCP-BackEnd-Message-Queue-Redis/docs/contribute/contribute) for details.
+We welcome contributions! Please see our [Contributing Guide](https://chisanan232.github.io/abe-redis/docs/contribute/contribute) for details.
 
 ### How to Contribute
 
@@ -212,20 +214,20 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 ## Links
 
-- **Documentation**: https://chisanan232.github.io/MCP-BackEnd-Message-Queue-Redis/
+- **Documentation**: https://chisanan232.github.io/abe-redis/
 - **PyPI Package**: https://pypi.org/project/abe-redis/
-- **Source Code**: https://github.com/Chisanan232/MCP-BackEnd-Message-Queue-Redis
-- **Issue Tracker**: https://github.com/Chisanan232/MCP-BackEnd-Message-Queue-Redis/issues
-- **Slack MCP Server**: https://github.com/Chisanan232/slack-mcp-server
+- **Source Code**: https://github.com/Chisanan232/abe-redis
+- **Issue Tracker**: https://github.com/Chisanan232/abe-redis/issues
+- **Abstract Backend**: https://github.com/Chisanan232/abstract-backend
 
 ## Support
 
 If you encounter any issues or have questions:
 
-- 📖 Check the [Documentation](https://chisanan232.github.io/MCP-BackEnd-Message-Queue-Redis/)
-- 🐛 Report bugs via [GitHub Issues](https://github.com/Chisanan232/MCP-BackEnd-Message-Queue-Redis/issues)
-- 💬 Ask questions in [GitHub Discussions](https://github.com/Chisanan232/MCP-BackEnd-Message-Queue-Redis/discussions)
+- 📖 Check the [Documentation](https://chisanan232.github.io/abe-redis/)
+- 🐛 Report bugs via [GitHub Issues](https://github.com/Chisanan232/abe-redis/issues)
+- 💬 Ask questions in [GitHub Discussions](https://github.com/Chisanan232/abe-redis/discussions)
 
 ---
 
-**Made with ❤️ for the Slack MCP Server ecosystem**
+**Made with ❤️ for the Abstract Backend ecosystem**

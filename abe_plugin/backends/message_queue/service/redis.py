@@ -1,7 +1,7 @@
-"""Redis-based message queue backend implementation for Slack MCP server.
+"""Redis-based message queue backend implementation for abstract backend.
 
 This module provides a Redis Streams-based implementation of the QueueBackend
-protocol, enabling the Slack MCP server to use Redis as its message queue backend.
+protocol, enabling the abstract backend to use Redis as its message queue backend.
 """
 
 import asyncio
@@ -218,7 +218,7 @@ class RedisMessageQueueBackend(QueueBackend):
         if self._client is None:
             raise RuntimeError("Redis client is not initialized")
 
-        # Stream pattern for all Slack events
+        # Stream pattern for all Abstract Backend events
         stream_pattern = "slack:*"
         consumer_name = f"consumer-{id(self)}"
 

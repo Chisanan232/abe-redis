@@ -11,7 +11,7 @@ from typing import Any, AsyncGenerator
 import pytest
 import pytest_asyncio
 
-from slack_mcp_plugin.backends.queue.redis import RedisMessageQueueBackend
+from abe_plugin.backends.message_queue.service.redis import RedisMessageQueueBackend
 
 # Skip all tests if integration tests are explicitly disabled
 pytestmark = pytest.mark.skipif(
@@ -484,7 +484,7 @@ class TestRedisIntegrationEndToEnd:
     @pytest.mark.asyncio
     async def test_full_publish_consume_workflow(self, clean_redis_backend: RedisMessageQueueBackend) -> None:
         """Test complete workflow: publish -> consume -> acknowledge."""
-        # Simulate real Slack event
+        # Simulate real Abstract Backend event
         slack_event = {
             "token": "test-token",
             "team_id": "T123456",

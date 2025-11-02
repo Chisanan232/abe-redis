@@ -14,7 +14,7 @@ on:
       - ".github/workflows/rw_build_and_test.yaml"
       - ".github/workflows/rw_run_all_test_and_record.yaml"
 #     For source code and test
-      - "../../slack_mcp_plugin/**/*.py"
+      - "../../abe_plugin/**/*.py"
       - "!**/__pkg_info__.py"
       - "test/**/*.py"
 #     For configurations for test or CI
@@ -39,7 +39,7 @@ on:
       - ".github/workflows/rw_build_and_test.yaml"
       - ".github/workflows/rw_run_all_test_and_record.yaml"
 #     For source code and test
-      - "../../slack_mcp_plugin/**/*.py"
+      - "../../abe_plugin/**/*.py"
       - "!**/__pkg_info__.py"
       - "test/**/*.py"
 #     For configurations for test or CI

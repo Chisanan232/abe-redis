@@ -4,56 +4,56 @@ title: Introduction
 sidebar_position: 1
 ---
 
-# Redis Message Queue Backend for Slack MCP Server
+# Redis Message Queue Backend for Abstract Backend
 
-Welcome to **abe-redis** - a production-ready Redis-based message queue backend implementation for the [Slack MCP Server](https://github.com/Chisanan232/slack-mcp-server) project.
+Welcome to **abe-redis** - a production-ready Redis-based message queue backend implementation for the [Abstract Backend](https://github.com/Chisanan232/abstract-backend) project.
 
 ## What is abe-redis?
 
-**abe-redis** is a Redis Streams-based message queue backend that integrates seamlessly with the Slack MCP Server's webhook-based event transfer system. It provides a reliable, scalable, and high-performance solution for handling Slack events using Redis as the message queue infrastructure.
+**abe-redis** is a Redis Streams-based message queue backend that integrates seamlessly with the Abstract Backend's webhook-based event transfer system. It provides a reliable, scalable, and high-performance solution for handling Abstract Backend events using Redis as the message queue infrastructure.
 
-## The Slack MCP Server Integration
+## The Abstract Backend Integration
 
-The [Slack MCP Server](https://github.com/Chisanan232/slack-mcp-server) is designed with a flexible, plugin-based architecture that supports webhook features to transfer Slack events through customizable message queue systems. This Redis backend can be installed via `pip install abe-redis` and used immediately with minimal configuration.
+The [Abstract Backend](https://github.com/Chisanan232/abstract-backend) is designed with a flexible, plugin-based architecture that supports webhook features to transfer Abstract Backend events through customizable message queue systems. This Redis backend can be installed via `pip install abe-redis` and used immediately with minimal configuration.
 
 ### Event Flow Architecture
 
-The Slack MCP Server processes events through the following flow:
+The Abstract Backend processes events through the following flow:
 
-1. **Slack Event Reception**: Slack sends webhook events to the MCP Server
-2. **Event Processing**: The MCP Server receives and validates the event
+1. **Event Reception**: An upstream system sends webhook events to your application
+2. **Event Processing**: The application validates, normalizes, and enriches the event
 3. **Queue Backend Selection**: Based on `QUEUE_BACKEND=redis` environment variable
 4. **Message Publishing**: Event is published to Redis Streams
-5. **Consumer Processing**: Your application consumes and processes events from Redis
-6. **Response Handling**: Results are sent back through the system
+5. **Consumer Processing**: Workers consume and process events from Redis
+6. **Response Handling**: Results are dispatched back to downstream systems
 
 ```mermaid
 sequenceDiagram
-    participant S as Slack
-    participant MCP as Slack MCP Server
+    participant Source as Event Source
+    participant App as Host Application
     participant Redis as Redis Streams
-    participant App as Your Application
-    
-    S->>MCP: Webhook Event
-    MCP->>MCP: Validate & Parse Event
-    MCP->>Redis: XADD (publish to stream)
+    participant Worker as Consumer Worker
+
+    Source->>App: Webhook Event
+    App->>App: Validate & Normalize Event
+    App->>Redis: XADD (publish to stream)
     Redis->>Redis: Store in Stream
-    App->>Redis: XREAD/XREADGROUP (consume)
-    Redis->>App: Event Data
-    App->>App: Process Event
-    App->>Redis: XACK (acknowledge)
+    Worker->>Redis: XREAD/XREADGROUP (consume)
+    Redis->>Worker: Event Data
+    Worker->>Worker: Process Event
+    Worker->>Redis: XACK (acknowledge)
 ```
 
 ### Plugin Discovery System
 
-The Slack MCP Server uses Python's entry points system for plugin discovery. The Redis backend is registered as:
+The Abstract Backend uses Python's entry points system for plugin discovery. The Redis backend is registered as:
 
 ```toml
-[project.entry-points."slack_mcp.backends.queue"]
-redis = "slack_mcp_plugin.backends.queue.redis:RedisMessageQueueBackend"
+[project.entry-points."abstract_backend.backends.queue.service"]
+redis = "abe_plugin.backends.queue.service.redis:RedisMessageQueueBackend"
 ```
 
-When you set `QUEUE_BACKEND=redis` in your environment, the MCP Server automatically discovers and loads the Redis backend.
+When you set `QUEUE_BACKEND=redis` in your environment, the host application automatically discovers and loads the Redis backend.
 
 ## Redis Backend Architecture
 
@@ -70,7 +70,7 @@ The Redis backend uses **Redis Streams** for reliable message queueing with the 
 ### Core Operations
 
 ```python
-from slack_mcp_plugin.backends.queue import RedisMessageQueueBackend
+from abe_plugin.backends.message_queue import RedisMessageQueueBackend
 
 # Initialize from environment
 backend = RedisMessageQueueBackend.from_env()
@@ -126,8 +126,8 @@ await backend.close()
 
 ### 🔌 **Plug-and-Play Integration**
 - **Zero Configuration**: Install and set `QUEUE_BACKEND=redis` to start
-- **Auto-Discovery**: Automatically discovered by Slack MCP Server
-- **Drop-in Replacement**: Works with existing Slack MCP Server installations
+- **Auto-Discovery**: Automatically discovered by Abstract Backend
+- **Drop-in Replacement**: Works with existing Abstract Backend installations
 
 ### ⚡ **High-Performance Redis Streams**
 - **Asynchronous Operations**: Non-blocking message processing with `redis.asyncio`
@@ -156,7 +156,7 @@ await backend.close()
 
 ## Why Redis Streams?
 
-Redis Streams provides the perfect balance of simplicity and power for Slack event processing:
+Redis Streams provides the perfect balance of simplicity and power for Abstract Backend event processing:
 
 ### **Reliability**
 - **Persistent Storage**: Messages survive Redis restarts
@@ -191,7 +191,7 @@ docker run -d -p 6379:6379 redis:7-alpine
 # Configure and run
 export QUEUE_BACKEND=redis
 export REDIS_URL=redis://localhost:6379/0
-python -m slack_mcp_server
+python -m abstract_backend_server
 ```
 
 ### **Distributed Workers (Production)**
@@ -226,8 +226,9 @@ export REDIS_URL=redis://localhost:6379/0
 ```
 
 ### ✅ **Start Using**
+
 ```python
-from slack_mcp_plugin.backends.queue import RedisMessageQueueBackend
+from abe_plugin.backends.message_queue import RedisMessageQueueBackend
 
 backend = RedisMessageQueueBackend.from_env()
 await backend.publish("slack:events", {"type": "message"})
@@ -252,4 +253,4 @@ Ready to use the Redis backend? Follow our comprehensive guide:
 4. 📚 **[API Reference](./api-references/)** - Detailed API documentation
 5. 🤝 **[Contributing](./contribute/)** - Help improve the Redis backend
 
-Let's process Slack events with Redis! 🚀
+Let's process Abstract Backend events with Redis! 🚀

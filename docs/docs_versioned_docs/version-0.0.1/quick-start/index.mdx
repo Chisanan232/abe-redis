@@ -6,15 +6,15 @@ sidebar_position: 2
 
 # Getting Started with Redis Message Queue Backend
 
-This guide will walk you through installing and using the Redis message queue backend for the Slack MCP Server. In just a few minutes, you'll have a working Redis-based event processing system.
+This guide will walk you through installing and using the Redis message queue backend for the Abstract Backend. In just a few minutes, you'll have a working Redis-based event processing system.
 
 ## What You'll Get
 
 By following this guide, you'll have:
 
 ✅ **Redis Backend Installed**: Ready-to-use Redis message queue backend  
-✅ **Slack MCP Integration**: Seamless integration with Slack MCP Server  
-✅ **Event Processing**: Ability to publish and consume Slack events via Redis  
+✅ **Abstract Backend Integration**: Seamless integration with Abstract Backend  
+✅ **Event Processing**: Ability to publish and consume Abstract Backend events via Redis  
 ✅ **Production Ready**: Scalable solution with consumer groups and acknowledgments  
 ✅ **Working Examples**: Sample code to get started quickly  
 
@@ -47,14 +47,14 @@ export QUEUE_BACKEND=redis
 export REDIS_URL=redis://localhost:6379/0
 ```
 
-### Step 4: Use with Slack MCP Server
+### Step 4: Use with Abstract Backend
 
 ```bash
-# The Slack MCP Server will automatically discover and use the Redis backend
-python -m slack_mcp_server
+# The Abstract Backend will automatically discover and use the Redis backend
+python -m abstract_backend_server
 ```
 
-That's it! Your Slack MCP Server is now using Redis for event processing.
+That's it! Your Abstract Backend is now using Redis for event processing.
 
 ## Basic Usage Examples
 
@@ -62,22 +62,24 @@ That's it! Your Slack MCP Server is now using Redis for event processing.
 
 ```python
 import asyncio
-from slack_mcp_plugin.backends.queue import RedisMessageQueueBackend
+from abe_plugin.backends.message_queue import RedisMessageQueueBackend
+
 
 async def publish_example():
     # Create backend from environment variables
     backend = RedisMessageQueueBackend.from_env()
-    
-    # Publish a Slack event
+
+    # Publish a Abstract Backend event
     event = {
         "type": "message",
         "channel": "C123456",
         "user": "U123456",
         "text": "Hello from Redis!",
     }
-    
+
     await backend.publish("slack:events", event)
     await backend.close()
+
 
 asyncio.run(publish_example())
 ```
@@ -86,20 +88,22 @@ asyncio.run(publish_example())
 
 ```python
 import asyncio
-from slack_mcp_plugin.backends.queue import RedisMessageQueueBackend
+from abe_plugin.backends.message_queue import RedisMessageQueueBackend
+
 
 async def consume_example():
     backend = RedisMessageQueueBackend.from_env()
-    
+
     # Consume messages from all slack:* streams
     async for message in backend.consume():
         print(f"Received: {message}")
         # Process your event here
-        
+
         # Break after processing some messages (for demo)
         break
-    
+
     await backend.close()
+
 
 asyncio.run(consume_example())
 ```
@@ -108,18 +112,20 @@ asyncio.run(consume_example())
 
 ```python
 import asyncio
-from slack_mcp_plugin.backends.queue import RedisMessageQueueBackend
+from abe_plugin.backends.message_queue import RedisMessageQueueBackend
+
 
 async def distributed_consumer(worker_id: int):
     backend = RedisMessageQueueBackend.from_env()
-    
+
     # Multiple workers can share the workload using consumer groups
     async for message in backend.consume(group="slack-workers"):
         print(f"Worker {worker_id} processing: {message}")
         # Process event
         await asyncio.sleep(1)  # Simulate work
-    
+
     await backend.close()
+
 
 # Run multiple workers
 asyncio.gather(
@@ -168,8 +174,8 @@ export REDIS_STREAM_MAXLEN=50000
 The project includes a comprehensive example demonstrating all features:
 ```bash
 # Clone the repository (if contributing/developing)
-git clone https://github.com/Chisanan232/MCP-BackEnd-Message-Queue-Redis.git
-cd MCP-BackEnd-Message-Queue-Redis
+git clone https://github.com/Chisanan232/abe-redis.git
+cd abe-redis
 
 # Install in editable mode
 pip install -e .
@@ -204,7 +210,7 @@ Now that you have the basics:
 
 ### Import Errors
 
-**Problem**: `ModuleNotFoundError: No module named 'slack_mcp_plugin'`
+**Problem**: `ModuleNotFoundError: No module named 'abe_plugin'`
 
 **Solution**:
 ```bash
@@ -220,4 +226,4 @@ pip install --upgrade abe-redis
 - Check Redis streams: `redis-cli XINFO STREAM slack:events`
 - Ensure consumer group is created properly
 
-For more help, visit our [GitHub Issues](https://github.com/Chisanan232/MCP-BackEnd-Message-Queue-Redis/issues).
+For more help, visit our [GitHub Issues](https://github.com/Chisanan232/abe-redis/issues).

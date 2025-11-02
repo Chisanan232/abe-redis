@@ -58,7 +58,7 @@ def redis_url() -> str:
 
 @pytest.fixture
 def mock_slack_event() -> dict:
-    """Provide a sample Slack event for testing."""
+    """Provide a sample Abstract Backend event for testing."""
     return {
         "token": "test-token",
         "team_id": "T123456",
@@ -79,7 +79,7 @@ def mock_slack_event() -> dict:
 
 @pytest.fixture
 def mock_slack_command() -> dict:
-    """Provide a sample Slack command for testing."""
+    """Provide a sample Abstract Backend command for testing."""
     return {
         "token": "test-token",
         "team_id": "T123456",

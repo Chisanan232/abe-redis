@@ -1,6 +1,6 @@
 ---
 slug: project-origin
-title: Redis Message Queue Backend - Extending Slack-MCP-Server with Redis Support
+title: Redis Message Queue Backend - Extending abstract-backend with Redis Support
 authors: [chisanan232]
 tags: [slack, mcp, mcp-server, message-queue, redis, backend, python, plugin-architecture]
 ---
@@ -9,7 +9,7 @@ tags: [slack, mcp, mcp-server, message-queue, redis, backend, python, plugin-arc
 
 <!-- truncate -->
 
-As a developer working with component-based architectures, I recognized a critical need: **extending message queue backend support to include Redis**. Many projects use a dynamic component loading mechanism similar to Slack-MCP-Server, where backend components are discovered and loaded at runtime through entry points.
+As a developer working with component-based architectures, I recognized a critical need: **extending message queue backend support to include Redis**. Many projects use a dynamic component loading mechanism similar to abstract-backend, where backend components are discovered and loaded at runtime through entry points.
 
 This Redis backend implementation was created to **extend message queue capabilities** across all projects that share this component loading pattern, providing a production-ready Redis integration that can be plugged into any compatible system.
 
@@ -42,10 +42,10 @@ This Redis backend implementation provides:
 This Redis backend is designed to work seamlessly with projects using dynamic component loading:
 
 ### **Universal Component Integration**
-- **Entry point registration**: Automatic discovery via `[project.entry-points."slack_mcp.backends.queue"]`
+- **Entry point registration**: Automatic discovery via `[project.entry-points."abstract_backend.backends.queue"]`
 - **Protocol compliance**: Implements the standard message queue backend interface
 - **Plug-and-play design**: No code changes needed in the host project
-- **Multi-project support**: Works with Slack-MCP-Server and similar architectures
+- **Multi-project support**: Works with abstract-backend and similar architectures
 
 ### **Redis-Specific Features**
 - **Redis Streams**: Modern stream-based message processing

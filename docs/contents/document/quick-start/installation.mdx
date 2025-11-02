@@ -11,7 +11,7 @@ import TabItem from '@theme/TabItem';
 
 # Installing Redis Message Queue Backend
 
-This guide provides step-by-step instructions for installing and configuring the Redis message queue backend for Slack MCP Server.
+This guide provides step-by-step instructions for installing and configuring the Redis message queue backend for Abstract Backend.
 
 ## Step 1: Install Redis Server
 
@@ -23,15 +23,15 @@ First, you need a running Redis server. Choose the method that best fits your en
 ```bash
 # Pull and run Redis 7
 docker run -d \
-  --name redis-mcp \
+  --name test-redis \
   -p 6379:6379 \
   redis:7-alpine
 
 # Verify it's running
-docker ps | grep redis-mcp
+docker ps | grep test-redis
 
 # Test connection
-docker exec redis-mcp redis-cli ping
+docker exec test-redis redis-cli ping
 ```
 
 </TabItem>
@@ -71,7 +71,7 @@ redis-cli ping  # Should return "PONG"
 
 **Option 1: Docker (Recommended)**
 ```powershell
-docker run -d --name redis-mcp -p 6379:6379 redis:7-alpine
+docker run -d --name test-redis -p 6379:6379 redis:7-alpine
 ```
 
 **Option 2: Native Installation**
@@ -228,23 +228,25 @@ Test that everything is working correctly:
 ```python
 # test_redis_backend.py
 import asyncio
-from slack_mcp_plugin.backends.queue import RedisMessageQueueBackend
+from abe_plugin.backends.message_queue import RedisMessageQueueBackend
+
 
 async def test_connection():
     # Create backend from environment
     backend = RedisMessageQueueBackend.from_env()
-    
+
     # Test publish
     await backend.publish("slack:test", {"message": "Hello Redis!"})
     print("✅ Successfully published message")
-    
+
     # Test consume
     async for message in backend.consume():
         print(f"✅ Successfully consumed message: {message}")
         break
-    
+
     await backend.close()
     print("✅ Connection closed successfully")
+
 
 if __name__ == "__main__":
     asyncio.run(test_connection())
@@ -270,8 +272,8 @@ If you want to contribute or modify the Redis backend:
 
 ```bash
 # Clone the repository
-git clone https://github.com/Chisanan232/MCP-BackEnd-Message-Queue-Redis.git
-cd MCP-BackEnd-Message-Queue-Redis
+git clone https://github.com/Chisanan232/abe-redis.git
+cd abe-redis
 
 # Install in editable mode
 pip install -e .
@@ -352,7 +354,7 @@ redis-cli -h localhost -p 6379 ping
 
 ### Import Errors
 
-**Problem**: `ModuleNotFoundError: No module named 'slack_mcp_plugin'`
+**Problem**: `ModuleNotFoundError: No module named 'abe_plugin'`
 
 **Solution**:
 ```bash

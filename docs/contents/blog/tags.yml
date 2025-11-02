@@ -1,7 +1,7 @@
 slack:
-  label: Slack
+  label: Abstract Backend
   permalink: /slack
-  description: Slack platform integrations and development
+  description: Abstract Backend platform integrations and development
 
 mcp:
   label: MCP
