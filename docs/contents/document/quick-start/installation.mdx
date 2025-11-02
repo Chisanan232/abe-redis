@@ -28,10 +28,10 @@ docker run -d \
   redis:7-alpine
 
 # Verify it's running
-docker ps | grep redis-mcp
+docker ps | grep test-redis
 
 # Test connection
-docker exec redis-mcp redis-cli ping
+docker exec test-redis redis-cli ping
 ```
 
 </TabItem>
@@ -71,7 +71,7 @@ redis-cli ping  # Should return "PONG"
 
 **Option 1: Docker (Recommended)**
 ```powershell
-docker run -d --name redis-mcp -p 6379:6379 redis:7-alpine
+docker run -d --name test-redis -p 6379:6379 redis:7-alpine
 ```
 
 **Option 2: Native Installation**

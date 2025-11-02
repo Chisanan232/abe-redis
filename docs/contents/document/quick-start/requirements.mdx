@@ -68,7 +68,7 @@ uv pip install abe-redis
 
 ```bash
 # Docker (recommended for development)
-docker run -d --name redis-mcp -p 6379:6379 redis:7-alpine
+docker run -d --name test-redis -p 6379:6379 redis:7-alpine
 
 # macOS
 brew install redis
@@ -174,7 +174,7 @@ ps aux | grep redis
 
 # Start Redis if not running
 # Docker:
-docker start redis-mcp
+docker start test-redis
 
 # macOS:
 brew services start redis
