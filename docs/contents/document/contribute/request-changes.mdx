@@ -6,19 +6,19 @@ sidebar_position: 2
 
 # Requesting Additions or Changes
 
-Have an idea for improving your repo? We welcome feature requests and suggestions from our community! This guide will help you submit effective feature requests.
+Have an idea for improving abe-redis? We welcome feature requests and suggestions from our community! This guide will help you submit effective feature requests.
 
 ## Before Submitting
 
 Before submitting a feature request, please:
 
-1. **Check existing requests**: Search the [GitHub Issues](https://github.com/Chisanan232/Template-Python-UV-Project/issues) to see if someone has already suggested a similar feature.
+1. **Check existing requests**: Search the [GitHub Issues](https://github.com/Chisanan232/abe-redis/issues) to see if someone has already suggested a similar feature.
 2. **Read the documentation**: Make sure the feature doesn't already exist or isn't already planned in our roadmap.
 3. **Consider compatibility**: Think about how your suggestion fits with the existing architecture and goals of the project.
 
 ## How to Submit a Feature Request
 
-Please submit feature requests through our [GitHub Issues](https://github.com/Chisanan232/Template-Python-UV-Project/issues) page using the "Feature Request" template.
+Please submit feature requests through our [GitHub Issues](https://github.com/Chisanan232/abe-redis/issues) page using the "Feature Request" template.
 
 ### What to Include
 
@@ -44,37 +44,33 @@ An effective feature request should include:
 ## Example Feature Request
 
 ```
-Title: Add WebSocket transport option for real-time updates
+Title: Support configurable stream prefixes for project-specific routing
 
 Problem Statement:
-Currently, your repo supports HTTP streaming and SSE for client communication. 
-However, for truly bidirectional real-time communication, these options have limitations. 
-Many modern web applications would benefit from WebSocket support for more efficient 
-real-time updates and lower latency.
+Currently, abe-redis automatically discovers streams matching the `slack:*` pattern. 
+Teams adopting the backend for other integrations need the ability to configure 
+custom prefixes (for example, `jira:*` or `webhooks:*`) without forking the package.
 
 Proposed Solution:
-Add a new transport option "websocket" that implements the WebSocket protocol. This would:
-- Allow bidirectional communication between client and server
-- Reduce overhead compared to HTTP polling or SSE
-- Enable real-time updates for task changes, comments, etc.
-- Follow the same MCP message format as existing transports
+Add a configuration option `REDIS_STREAM_PREFIXES` that accepts a comma-separated list 
+of patterns. During consumption, use these patterns instead of the hard-coded `slack:*` value.
 
 The implementation should include:
-1. New WebSocketTransport class implementing the Transport interface
-2. Client-side connection handling and reconnection logic
-3. Support for the same authentication mechanisms as existing transports
+1. Extend `RedisMessageQueueBackend.from_env()` to parse the new environment variable.
+2. Update `_get_streams_by_pattern` to iterate over the configured prefixes.
+3. Document the new option in the quick-start and configuration guides.
 
 Alternative Solutions:
-1. Enhance the SSE implementation with custom headers for upstream communication
-2. Implement long-polling with improved efficiency
+1. Allow passing stream patterns directly to `consume()` for per-call overrides.
+2. Provide a plugin hook where applications can register their own stream discovery logic.
 
 Implementation Considerations:
-This would require adding a WebSocket library dependency (e.g., websockets for Python).
-Care should be taken to ensure proper connection management and resource cleanup.
+- Ensure backward compatibility by defaulting to `slack:*` when the variable is unset.
+- Validate input to avoid accidental wildcards that could match all Redis keys.
 
 Impact and Importance:
-This feature would greatly improve real-time applications built on your repo,
-reducing latency and improving the user experience for collaborative tools.
+This feature would make abe-redis usable in a wider range of projects while avoiding 
+custom forks and hard-coded naming conventions.
 ```
 
 ## After Submitting
@@ -85,4 +81,4 @@ After you've submitted a feature request:
 - Be open to feedback and suggestions
 - Consider contributing to the implementation if you have the skills
 
-Thank you for helping improve your repo!
+Thank you for helping improve abe-redis!
