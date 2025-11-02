@@ -32,7 +32,6 @@ classifiers = [
 dependencies = [
     "abstract-backend>=0.0.1",
     "redis[hiredis]>=6.4.0",
-    "slack-mcp>=0.0.1",
 ]
 
 [project.urls]
