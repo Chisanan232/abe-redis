@@ -12,8 +12,8 @@ from collections.abc import AsyncIterator
 from typing import Any
 
 import redis.asyncio as aioredis
-from redis.asyncio.client import Redis
 from abe.backends.message_queue.base.protocol import MessageQueueBackend
+from redis.asyncio.client import Redis
 
 __all__ = ["RedisMessageQueueBackend"]
 
