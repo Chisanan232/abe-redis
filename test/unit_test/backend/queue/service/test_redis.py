@@ -87,7 +87,7 @@ class TestRedisMessageQueueBackendConnection:
         backend = RedisMessageQueueBackend(redis_url="redis://localhost:6379/0")
 
         with patch(
-            "abe_plugin.backends.queue.service.redis.aioredis.from_url", new_callable=AsyncMock
+            "abe_plugin.backends.message_queue.service.redis.aioredis.from_url", new_callable=AsyncMock
         ) as mock_from_url:
             mock_client = AsyncMock(spec=Redis)
             mock_client.ping = AsyncMock()
@@ -111,7 +111,7 @@ class TestRedisMessageQueueBackendConnection:
         backend = RedisMessageQueueBackend(redis_url="redis://invalid:6379/0")
 
         with patch(
-            "abe_plugin.backends.queue.service.redis.aioredis.from_url", new_callable=AsyncMock
+            "abe_plugin.backends.message_queue.service.redis.aioredis.from_url", new_callable=AsyncMock
         ) as mock_from_url:
             mock_from_url.side_effect = ConnectionError("Connection refused")
 
