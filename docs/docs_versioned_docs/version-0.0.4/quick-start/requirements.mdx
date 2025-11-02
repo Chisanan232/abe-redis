@@ -1,0 +1,205 @@
+---
+id: requirements
+title: Requirements
+sidebar_position: 1
+---
+
+# Requirements
+
+Before using the Redis message queue backend with Abstract Backend, ensure your system meets the following requirements:
+
+## Quick Checklist
+
+- ✅ Python 3.12 or 3.13 installed
+- ✅ Redis 6.0+ running (7.0+ recommended)
+- ✅ pip or uv package manager
+- ✅ Network access to Redis server
+- ✅ 500MB+ free disk space
+
+## System Requirements
+
+- **Operating System**: Linux, macOS, or Windows
+- **Memory**: Minimum 512MB RAM (2GB+ recommended for production)
+- **Disk Space**: Minimum 500MB for Redis and Python dependencies
+- **Internet Connection**: Required for installing packages and connecting to remote Redis instances
+
+## Core Prerequisites
+
+### Python Version
+
+- **Python**: Version 3.12 or 3.13
+- **Recommended**: Python 3.13 for best async performance
+
+:::tip Python Installation
+If you don't have Python installed:
+- **macOS**: `brew install python@3.13`
+- **Ubuntu/Debian**: `sudo apt install python3.13`
+- **Windows**: Download from [python.org](https://www.python.org/) or use `winget install Python.Python.3.13`
+:::
+
+### Package Manager
+
+You can use any Python package manager:
+
+- **pip** (standard, included with Python)
+- **uv** (fast, modern alternative)
+- **poetry** (dependency management)
+
+**Installation with pip:**
+```bash
+pip install abe-redis
+```
+
+**Installation with uv (recommended for speed):**
+```bash
+# Install uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Install the package
+uv pip install abe-redis
+```
+
+### Redis Server
+
+- **Redis**: Version 6.0 or higher (7.0+ recommended)
+- **Redis Streams**: Must support XADD, XREAD, XREADGROUP commands
+
+**Installation Options:**
+
+```bash
+# Docker (recommended for development)
+docker run -d --name test-redis -p 6379:6379 redis:7-alpine
+
+# macOS
+brew install redis
+brew services start redis
+
+# Ubuntu/Debian
+sudo apt install redis-server
+sudo systemctl start redis-server
+
+# Windows
+# Use Docker or download from https://github.com/microsoftarchive/redis/releases
+```
+
+## Abstract Backend Integration
+
+### Required Packages
+
+The Redis backend requires:
+
+```bash
+pip install abe-redis
+```
+
+This automatically installs:
+- `redis[hiredis]>=6.4.0` - Redis client with high-performance parser
+- `abstract-backend>=0.0.1` - Abstract Backend core (if not already installed)
+
+### Optional: Abstract Backend
+
+If you're running the full Abstract Backend:
+
+```bash
+pip install abstract-backend
+```
+
+## Redis Deployment Options
+
+### Local Development
+- **Docker**: Easiest for development (recommended)
+- **Native Installation**: Direct installation on your OS
+
+### Production Options
+- **Self-Hosted Redis**: On your own servers
+- **Redis Cloud**: Managed Redis service
+- **AWS ElastiCache**: Redis on AWS
+- **Google Cloud Memorystore**: Redis on GCP
+- **Azure Cache for Redis**: Redis on Azure
+- **DigitalOcean Managed Redis**: Redis on DigitalOcean
+
+## Optional Tools
+
+### For Development & Testing
+- **redis-cli**: Command-line Redis client (included with Redis)
+- **RedisInsight**: GUI for Redis (optional, helpful for debugging)
+
+### For Monitoring
+- **redis-cli**: Built-in monitoring commands
+- **Prometheus**: Metrics collection
+- **Grafana**: Metrics visualization
+
+## Environment Setup Verification
+
+After installing the prerequisites, verify your setup:
+
+```bash
+# Check Python version
+python --version  # Should be 3.12 or 3.13
+
+# Check Redis is running
+redis-cli ping  # Should return "PONG"
+
+# Check Redis version
+redis-cli INFO server | grep redis_version
+
+# Verify package installation
+pip show abe-redis
+
+# Test Redis connection from Python
+python -c "import redis; r = redis.Redis(); print(r.ping())"
+```
+
+## Next Steps
+
+Once your environment meets these requirements, you're ready to:
+
+1. 🚀 **[Quick Start Guide](./quick-start)** - Get started in 5 minutes with usage examples
+2. 🛠️ **[Installation Guide](./installation)** - Detailed installation instructions
+3. 📚 **[API Reference](../api-references/api-references)** - Complete API documentation
+
+## Common Issues & Solutions
+
+### Python Version Issues
+```bash
+# If you have multiple Python versions, specify the version
+python3.13 -m pip install abe-redis
+```
+
+### Redis Connection Issues
+```bash
+# If Redis is not responding
+# Check if Redis is running
+ps aux | grep redis
+
+# Start Redis if not running
+# Docker:
+docker start test-redis
+
+# macOS:
+brew services start redis
+
+# Linux:
+sudo systemctl start redis-server
+```
+
+### Permission Issues
+```bash
+# If you get permission errors during pip install
+pip install --user abe-redis
+
+# Or use a virtual environment
+python -m venv venv
+source venv/bin/activate  # Linux/macOS
+pip install abe-redis
+```
+
+### Redis Streams Not Available
+```bash
+# Verify Redis version supports Streams (6.0+)
+redis-cli INFO server | grep redis_version
+
+# If version is too old, upgrade Redis
+```
+
+Ready to proceed? Let's move on to the [Quick Start Guide](./quick-start)!

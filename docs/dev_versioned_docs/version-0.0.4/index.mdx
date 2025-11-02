@@ -1,0 +1,63 @@
+---
+id: development
+title: Development
+sidebar_position: 1
+---
+
+# Development Guide
+
+Welcome to the Redis Message Queue Backend development guide! This section provides comprehensive information for developers who want to contribute to the Redis backend implementation.
+
+## Getting Started
+
+If you're new to contributing, we recommend starting with these sections:
+
+- [Requirements](./requirements.mdx) - Development environment prerequisites
+- [Development Workflow](./workflow.mdx) - How to set up and contribute to the project
+- [Coding Style and Rules](./coding-style.mdx) - Coding conventions used in the project
+
+## Project Structure
+
+The Redis backend implementation follows this structure:
+
+```
+abe_plugin/
+└── backends/
+    └── queue/
+        ├── __init__.py
+        └── redis.py          # Redis backend implementation
+
+test/
+├── unit_test/
+│   └── test_redis_backend.py
+└── integration_test/
+    └── test_redis_integration.py
+```
+
+## Key Components
+
+- **RedisMessageQueueBackend**: Main implementation class using Redis Streams
+- **Environment Configuration**: Redis connection and configuration management
+- **Consumer Groups**: Distributed message processing support
+- **Stream Management**: Automatic stream discovery and cleanup
+
+## CI/CD
+
+The project uses GitHub Actions for:
+
+- Automated testing across Python 3.12 and 3.13
+- Code quality checks (black, pylint, mypy)
+- Integration tests with Redis
+- Automated PyPI publishing
+
+Learn more: [CI/CD Workflows](../ci-cd/index)
+
+## Contributing
+
+We welcome contributions! Before submitting code, please:
+
+1. Read the [Contributing Guide](/docs/contribute/contribute)
+2. Set up your development environment following [Requirements](../requirements)
+3. Follow the [Coding Style](../coding-style) guidelines
+4. Write tests for new features
+5. Ensure all tests pass before submitting a PR

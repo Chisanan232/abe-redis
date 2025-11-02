@@ -1,0 +1,84 @@
+---
+id: request-changes
+title: Request Additions or Changes
+sidebar_position: 2
+---
+
+# Requesting Additions or Changes
+
+Have an idea for improving abe-redis? We welcome feature requests and suggestions from our community! This guide will help you submit effective feature requests.
+
+## Before Submitting
+
+Before submitting a feature request, please:
+
+1. **Check existing requests**: Search the [GitHub Issues](https://github.com/Chisanan232/abe-redis/issues) to see if someone has already suggested a similar feature.
+2. **Read the documentation**: Make sure the feature doesn't already exist or isn't already planned in our roadmap.
+3. **Consider compatibility**: Think about how your suggestion fits with the existing architecture and goals of the project.
+
+## How to Submit a Feature Request
+
+Please submit feature requests through our [GitHub Issues](https://github.com/Chisanan232/abe-redis/issues) page using the "Feature Request" template.
+
+### What to Include
+
+An effective feature request should include:
+
+1. **Clear and descriptive title**: Summarize the proposed feature concisely.
+2. **Problem statement**: Describe the problem that this feature would solve.
+   - What are you trying to accomplish?
+   - Why is it difficult or impossible with the current implementation?
+   - Who else might benefit from this feature?
+
+3. **Proposed solution**: Describe your idea for implementing the feature.
+   - Be as specific as possible
+   - Include mockups or diagrams if applicable
+   - Consider edge cases and potential issues
+
+4. **Alternative solutions**: Have you considered other ways to solve this problem?
+
+5. **Implementation considerations**: If you have technical insights about how to implement the feature, please share them.
+
+6. **Impact and importance**: Explain why this feature would be valuable to users and the project.
+
+## Example Feature Request
+
+```
+Title: Support configurable stream prefixes for project-specific routing
+
+Problem Statement:
+Currently, abe-redis automatically discovers streams matching the `slack:*` pattern. 
+Teams adopting the backend for other integrations need the ability to configure 
+custom prefixes (for example, `jira:*` or `webhooks:*`) without forking the package.
+
+Proposed Solution:
+Add a configuration option `REDIS_STREAM_PREFIXES` that accepts a comma-separated list 
+of patterns. During consumption, use these patterns instead of the hard-coded `slack:*` value.
+
+The implementation should include:
+1. Extend `RedisMessageQueueBackend.from_env()` to parse the new environment variable.
+2. Update `_get_streams_by_pattern` to iterate over the configured prefixes.
+3. Document the new option in the quick-start and configuration guides.
+
+Alternative Solutions:
+1. Allow passing stream patterns directly to `consume()` for per-call overrides.
+2. Provide a plugin hook where applications can register their own stream discovery logic.
+
+Implementation Considerations:
+- Ensure backward compatibility by defaulting to `slack:*` when the variable is unset.
+- Validate input to avoid accidental wildcards that could match all Redis keys.
+
+Impact and Importance:
+This feature would make abe-redis usable in a wider range of projects while avoiding 
+custom forks and hard-coded naming conventions.
+```
+
+## After Submitting
+
+After you've submitted a feature request:
+
+- Be responsive to questions about your proposal
+- Be open to feedback and suggestions
+- Consider contributing to the implementation if you have the skills
+
+Thank you for helping improve abe-redis!

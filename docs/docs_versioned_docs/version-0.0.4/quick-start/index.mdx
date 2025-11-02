@@ -1,0 +1,229 @@
+---
+id: quick-start
+title: Quick Start
+sidebar_position: 2
+---
+
+# Getting Started with Redis Message Queue Backend
+
+This guide will walk you through installing and using the Redis message queue backend for the Abstract Backend. In just a few minutes, you'll have a working Redis-based event processing system.
+
+## What You'll Get
+
+By following this guide, you'll have:
+
+✅ **Redis Backend Installed**: Ready-to-use Redis message queue backend  
+✅ **Abstract Backend Integration**: Seamless integration with Abstract Backend  
+✅ **Event Processing**: Ability to publish and consume Abstract Backend events via Redis  
+✅ **Production Ready**: Scalable solution with consumer groups and acknowledgments  
+✅ **Working Examples**: Sample code to get started quickly  
+
+## 5-Minute Quick Start
+
+### Step 1: Install Redis
+
+Install and start a Redis server using Docker (recommended) or native installation:
+
+**Using Docker (Recommended):**
+```bash
+docker run -d --name test-redis -p 6379:6379 redis:7-alpine
+```
+
+**Or install natively:**
+- **macOS**: `brew install redis && brew services start redis`
+- **Ubuntu/Debian**: `sudo apt install redis-server && sudo systemctl start redis`
+- **Windows**: Use [Redis for Windows](https://github.com/microsoftarchive/redis/releases)
+
+### Step 2: Install the Redis Backend
+
+```bash
+pip install abe-redis
+```
+
+### Step 3: Configure Environment
+
+```bash
+export QUEUE_BACKEND=redis
+export REDIS_URL=redis://localhost:6379/0
+```
+
+### Step 4: Use with Abstract Backend
+
+```bash
+# The Abstract Backend will automatically discover and use the Redis backend
+python -m abstract_backend_server
+```
+
+That's it! Your Abstract Backend is now using Redis for event processing.
+
+## Basic Usage Examples
+
+### Publishing Events
+
+```python
+import asyncio
+from abe_plugin.backends.message_queue import RedisMessageQueueBackend
+
+
+async def publish_example():
+    # Create backend from environment variables
+    backend = RedisMessageQueueBackend.from_env()
+
+    # Publish a Abstract Backend event
+    event = {
+        "type": "message",
+        "channel": "C123456",
+        "user": "U123456",
+        "text": "Hello from Redis!",
+    }
+
+    await backend.publish("slack:events", event)
+    await backend.close()
+
+
+asyncio.run(publish_example())
+```
+
+### Consuming Events (Simple Mode)
+
+```python
+import asyncio
+from abe_plugin.backends.message_queue import RedisMessageQueueBackend
+
+
+async def consume_example():
+    backend = RedisMessageQueueBackend.from_env()
+
+    # Consume messages from all slack:* streams
+    async for message in backend.consume():
+        print(f"Received: {message}")
+        # Process your event here
+
+        # Break after processing some messages (for demo)
+        break
+
+    await backend.close()
+
+
+asyncio.run(consume_example())
+```
+
+### Consuming with Consumer Groups (Distributed Mode)
+
+```python
+import asyncio
+from abe_plugin.backends.message_queue import RedisMessageQueueBackend
+
+
+async def distributed_consumer(worker_id: int):
+    backend = RedisMessageQueueBackend.from_env()
+
+    # Multiple workers can share the workload using consumer groups
+    async for message in backend.consume(group="slack-workers"):
+        print(f"Worker {worker_id} processing: {message}")
+        # Process event
+        await asyncio.sleep(1)  # Simulate work
+
+    await backend.close()
+
+
+# Run multiple workers
+asyncio.gather(
+    distributed_consumer(1),
+    distributed_consumer(2),
+    distributed_consumer(3),
+)
+```
+
+## Configuration Options
+
+### Environment Variables
+
+The Redis backend supports the following environment variables:
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `REDIS_URL` | Yes | `redis://localhost:6379/0` | Redis connection URL |
+| `REDIS_PASSWORD` | No | None | Redis authentication password |
+| `REDIS_SSL` | No | `false` | Enable SSL/TLS connection |
+| `REDIS_MAX_CONNECTIONS` | No | `10` | Maximum connection pool size |
+| `REDIS_STREAM_MAXLEN` | No | `10000` | Maximum stream length for trimming |
+| `QUEUE_BACKEND` | Yes | - | Must be set to `redis` |
+
+### Example Configurations
+
+#### Development (Local Redis)
+```bash
+export QUEUE_BACKEND=redis
+export REDIS_URL=redis://localhost:6379/0
+```
+
+#### Production (Secure Redis)
+```bash
+export QUEUE_BACKEND=redis
+export REDIS_URL=redis://prod-redis.example.com:6379/0
+export REDIS_PASSWORD=your_secure_password
+export REDIS_SSL=true
+export REDIS_MAX_CONNECTIONS=20
+export REDIS_STREAM_MAXLEN=50000
+```
+
+
+## Running the Example
+
+The project includes a comprehensive example demonstrating all features:
+```bash
+# Clone the repository (if contributing/developing)
+git clone https://github.com/Chisanan232/abe-redis.git
+cd abe-redis
+
+# Install in editable mode
+pip install -e .
+
+# Run the example (ensure Redis is running)
+python examples/basic_usage.py
+```
+The example demonstrates:
+- Publishing messages to Redis streams
+- Simple consumption without consumer groups
+- Distributed consumption with consumer groups
+- Combined publish/consume patterns
+
+## Next Steps
+
+Now that you have the basics:
+
+1. 📋 **[Requirements](./requirements)** - Detailed system requirements
+2. 🛠️ **[Installation](./installation)** - Advanced installation options
+3. 📚 **[API Reference](../api-references/api-references)** - Complete API documentation
+
+## Troubleshooting
+
+### Redis Connection Issues
+
+**Problem**: `ConnectionError: Unable to connect to Redis`
+
+**Solutions**:
+- Verify Redis is running: `redis-cli ping` (should return `PONG`)
+- Check `REDIS_URL` format: `redis://host:port/db`
+- Verify network connectivity and firewall rules
+
+### Import Errors
+
+**Problem**: `ModuleNotFoundError: No module named 'abe_plugin'`
+
+**Solution**:
+```bash
+pip install --upgrade abe-redis
+```
+
+### Consumer Not Receiving Messages
+
+**Problem**: Consumer runs but doesn't receive messages
+
+**Solutions**:
+- Verify messages are being published to streams matching `slack:*` pattern
+- Check Redis streams: `redis-cli XINFO STREAM slack:events`
+- Ensure consumer group is created properly
+
+For more help, visit our [GitHub Issues](https://github.com/Chisanan232/abe-redis/issues).
