@@ -228,23 +228,25 @@ Test that everything is working correctly:
 ```python
 # test_redis_backend.py
 import asyncio
-from abe_plugin.backends.queue import RedisMessageQueueBackend
+from abe_plugin.backends.message_queue import RedisMessageQueueBackend
+
 
 async def test_connection():
     # Create backend from environment
     backend = RedisMessageQueueBackend.from_env()
-    
+
     # Test publish
     await backend.publish("slack:test", {"message": "Hello Redis!"})
     print("✅ Successfully published message")
-    
+
     # Test consume
     async for message in backend.consume():
         print(f"✅ Successfully consumed message: {message}")
         break
-    
+
     await backend.close()
     print("✅ Connection closed successfully")
+
 
 if __name__ == "__main__":
     asyncio.run(test_connection())

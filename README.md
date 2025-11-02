@@ -84,7 +84,8 @@ docker run -d --name test-redis -p 6379:6379 redis:7-alpine
 
 ```python
 import asyncio
-from abe_plugin.backends.queue import RedisMessageQueueBackend
+from abe_plugin.backends.message_queue import RedisMessageQueueBackend
+
 
 async def main():
     # Create backend from environment variables
@@ -99,6 +100,7 @@ async def main():
         break
 
     await backend.close()
+
 
 asyncio.run(main())
 ```

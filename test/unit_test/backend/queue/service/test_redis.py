@@ -12,7 +12,7 @@ from unittest.mock import AsyncMock, patch
 import pytest
 from redis.asyncio.client import Redis
 
-from queue.service.redis import RedisMessageQueueBackend
+from abe_plugin.backends.message_queue.service.redis import RedisMessageQueueBackend
 
 
 class TestRedisMessageQueueBackendInit:

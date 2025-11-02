@@ -62,12 +62,13 @@ That's it! Your Abstract Backend is now using Redis for event processing.
 
 ```python
 import asyncio
-from abe_plugin.backends.queue import RedisMessageQueueBackend
+from abe_plugin.backends.message_queue import RedisMessageQueueBackend
+
 
 async def publish_example():
     # Create backend from environment variables
     backend = RedisMessageQueueBackend.from_env()
-    
+
     # Publish a Abstract Backend event
     event = {
         "type": "message",
@@ -75,9 +76,10 @@ async def publish_example():
         "user": "U123456",
         "text": "Hello from Redis!",
     }
-    
+
     await backend.publish("slack:events", event)
     await backend.close()
+
 
 asyncio.run(publish_example())
 ```
@@ -86,20 +88,22 @@ asyncio.run(publish_example())
 
 ```python
 import asyncio
-from abe_plugin.backends.queue import RedisMessageQueueBackend
+from abe_plugin.backends.message_queue import RedisMessageQueueBackend
+
 
 async def consume_example():
     backend = RedisMessageQueueBackend.from_env()
-    
+
     # Consume messages from all slack:* streams
     async for message in backend.consume():
         print(f"Received: {message}")
         # Process your event here
-        
+
         # Break after processing some messages (for demo)
         break
-    
+
     await backend.close()
+
 
 asyncio.run(consume_example())
 ```
@@ -108,18 +112,20 @@ asyncio.run(consume_example())
 
 ```python
 import asyncio
-from abe_plugin.backends.queue import RedisMessageQueueBackend
+from abe_plugin.backends.message_queue import RedisMessageQueueBackend
+
 
 async def distributed_consumer(worker_id: int):
     backend = RedisMessageQueueBackend.from_env()
-    
+
     # Multiple workers can share the workload using consumer groups
     async for message in backend.consume(group="slack-workers"):
         print(f"Worker {worker_id} processing: {message}")
         # Process event
         await asyncio.sleep(1)  # Simulate work
-    
+
     await backend.close()
+
 
 # Run multiple workers
 asyncio.gather(
