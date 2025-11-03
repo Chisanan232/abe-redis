@@ -30,8 +30,8 @@ classifiers = [
 #    "Programming Language :: Python :: 3.14",  # TODO: Because of PyO3's maximum supported version (3.13)
 ]
 dependencies = [
+    "abstract-backend>=0.0.1",
     "redis[hiredis]>=6.4.0",
-    "slack-mcp>=0.0.1",
 ]
 
 [project.urls]

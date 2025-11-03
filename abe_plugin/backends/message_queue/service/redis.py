@@ -12,15 +12,15 @@ from collections.abc import AsyncIterator
 from typing import Any
 
 import redis.asyncio as aioredis
+from abe.backends.message_queue.base.protocol import MessageQueueBackend
 from redis.asyncio.client import Redis
-from slack_mcp.backends.base.protocol import QueueBackend
 
 __all__ = ["RedisMessageQueueBackend"]
 
 logger = logging.getLogger(__name__)
 
 
-class RedisMessageQueueBackend(QueueBackend):
+class RedisMessageQueueBackend(MessageQueueBackend):
     """Redis Streams-based message queue backend implementation.
 
     This backend uses Redis Streams for reliable message queueing with support

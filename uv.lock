@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 2
 requires-python = ">=3.12, <3.14"
 
 [[package]]
@@ -7,8 +7,8 @@ name = "abe-redis"
 version = "0.0.4"
 source = { editable = "." }
 dependencies = [
+    { name = "abstract-backend" },
     { name = "redis", extra = ["hiredis"] },
-    { name = "slack-mcp" },
 ]
 
 [package.dev-dependencies]
@@ -30,8 +30,8 @@ pre-commit-ci = [
 
 [package.metadata]
 requires-dist = [
+    { name = "abstract-backend", specifier = ">=0.0.1" },
     { name = "redis", extras = ["hiredis"], specifier = ">=6.4.0" },
-    { name = "slack-mcp", specifier = ">=0.0.1" },
 ]
 
 [package.metadata.requires-dev]
@@ -49,6 +49,15 @@ pre-commit-ci = [
     { name = "mypy", specifier = ">=1.2.0,<2" },
     { name = "pre-commit", specifier = ">=3.5.0,<5" },
     { name = "pylint", specifier = ">=3.1.0,<4" },
+]
+
+[[package]]
+name = "abstract-backend"
+version = "0.0.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/99/3c/2fde5cac67d4ba3b1544638acfb0ea0119c27d5d37f1e1a4dc0e2529fdee/abstract_backend-0.0.1.tar.gz", hash = "sha256:b716fc23f937cf96b4693e7663dbec143b59e6f12e7a4eccc566b99cdd73c2ed", size = 16748, upload-time = "2025-11-02T11:51:12.817Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c2/11/9b98d704f6b908a5ea60652de0bd497e58aae1e342031333076880536f95/abstract_backend-0.0.1-py3-none-any.whl", hash = "sha256:5f59200b098633d9150e41953a8fec8610047e14afdb5ef9e4986dcc6b99d485", size = 23525, upload-time = "2025-11-02T11:51:11.449Z" },
 ]
 
 [[package]]
@@ -812,15 +821,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/c9/74/b3ff8e6c8446842c3f5c837e9c3dfcfe2018ea6ecef224c710c85ef728f4/requests-2.32.5.tar.gz", hash = "sha256:dbba0bac56e100853db0ea71b82b4dfd5fe2bf6d3754a8893c3af500cec7d7cf", size = 134517, upload-time = "2025-08-18T20:46:02.573Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/1e/db/4254e3eabe8020b458f1a747140d32277ec7a271daf1d235b70dc0b4e6e3/requests-2.32.5-py3-none-any.whl", hash = "sha256:2462f94637a34fd532264295e186976db0f5d453d1cdd31473c85a6a161affb6", size = 64738, upload-time = "2025-08-18T20:46:00.542Z" },
-]
-
-[[package]]
-name = "slack-mcp"
-version = "0.0.2"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/c5/e4/311ad5b70f7a6fa47282b1b5b8d68d48ab713c05a6d2d76f2fc4f004e335/slack_mcp-0.0.2.tar.gz", hash = "sha256:0b28ba8260bf3ee7f0ff30bbd82cdc476995f8d81735aba3e93d627543ec696f", size = 46010, upload-time = "2025-10-23T14:10:13.23Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/6e/f7/5e2775f9ac824b2b8ef7bc825de30f928eeac395e737b3adad9cf784879f/slack_mcp-0.0.2-py3-none-any.whl", hash = "sha256:05b2e1542588df8388b735a3c8604653a31a5756f1e490ac13023f325f1f6810", size = 63331, upload-time = "2025-10-23T14:10:12.294Z" },
 ]
 
 [[package]]
