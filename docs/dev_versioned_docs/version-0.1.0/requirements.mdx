@@ -1,0 +1,219 @@
+---
+id: requirements
+title: Requirements
+sidebar_position: 2
+---
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+```
+
+# Development Requirements
+
+Before you begin contributing to the Redis Message Queue Backend, ensure your development environment meets these requirements.
+
+## Software Prerequisites
+
+### Required Software
+
+- **Python**: Python 3.12 or 3.13
+- **Git**: Latest stable version
+- **uv**: Fast Python package manager (recommended) or pip
+- **Redis**: Version 6.0+ for testing (7.0+ recommended)
+- **Docker**: For running Redis in containers during testing (optional)
+
+### Recommended Development Tools
+
+- **Visual Studio Code** or **PyCharm**: IDE with Python support
+- **RedisInsight**: GUI for debugging Redis streams
+- **pre-commit**: For running pre-commit hooks automatically
+
+## Python Dependencies
+
+The project dependencies are managed in `pyproject.toml`:
+
+### Production Dependencies
+
+- **redis[hiredis]>=6.4.0**: Redis client with high-performance parser
+- **abstract-backend>=0.0.1**: Abstract Backend core library
+
+### Development Dependencies
+
+- **pytest**: Testing framework
+- **pytest-asyncio**: Async test support
+- **pytest-cov**: Code coverage reporting
+- **pytest-rerunfailures**: Retry flaky tests
+- **testcontainers[redis]**: Docker-based Redis for integration tests
+- **black**: Code formatting
+- **pylint**: Code linting
+- **mypy**: Static type checking
+- **python-dotenv**: Environment variable management
+
+## Development Environment Setup
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Chisanan232/abe-redis.git
+cd abe-redis
+```
+
+### 2. Install uv (Recommended)
+
+<Tabs>
+  <TabItem value="unix" label="macOS/Linux" default>
+  ```bash
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+  ```
+  </TabItem>
+  <TabItem value="windows" label="Windows">
+  ```powershell
+  powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+  ```
+  </TabItem>
+  <TabItem value="pip" label="pip">
+  ```bash
+  pip install uv
+  ```
+  </TabItem>
+</Tabs>
+
+### 3. Set Up Development Environment
+
+<Tabs>
+  <TabItem value="uv" label="uv (Recommended)" default>
+  ```bash
+  # Install all dependencies including dev tools
+  uv sync
+  
+  # Activate virtual environment (optional, uv run handles this)
+  source .venv/bin/activate  # macOS/Linux
+  # or
+  .venv\Scripts\activate     # Windows
+  ```
+  </TabItem>
+  <TabItem value="pip" label="pip">
+  ```bash
+  # Create virtual environment
+  python -m venv venv
+  source venv/bin/activate  # macOS/Linux
+  # or venv\Scripts\activate  # Windows
+  
+  # Install in editable mode with dev dependencies
+  pip install -e ".[dev]"
+  ```
+  </TabItem>
+</Tabs>
+
+### 4. Start Redis for Testing
+
+<Tabs>
+  <TabItem value="docker" label="Docker (Recommended)" default>
+  ```bash
+  docker run -d --name redis-dev -p 6379:6379 redis:7-alpine
+  
+  # Verify it's running
+  docker exec redis-dev redis-cli ping
+  ```
+  </TabItem>
+  <TabItem value="local" label="Local Installation">
+  ```bash
+  # macOS
+  brew services start redis
+  
+  # Linux
+  sudo systemctl start redis-server
+  
+  # Verify Redis is running
+  redis-cli ping  # Should return "PONG"
+  ```
+  </TabItem>
+</Tabs>
+
+### 5. Set Up Pre-commit Hooks
+
+```bash
+uv run pre-commit install
+
+# Test pre-commit setup
+uv run pre-commit run --all-files
+```
+
+### 6. Configure Environment Variables
+
+Create a `.env` file for local development:
+
+```bash
+# .env
+REDIS_URL=redis://localhost:6379/0
+QUEUE_BACKEND=redis
+```
+
+### 7. Run Tests to Verify Setup
+
+```bash
+# Run all tests
+uv run pytest
+
+# Run with coverage
+uv run pytest --cov=abe_plugin --cov-report=html
+
+# Run only unit tests
+uv run pytest test/unit_test/
+
+# Run only integration tests (requires Redis)
+uv run pytest test/integration_test/
+```
+
+## Development Commands
+
+### Running Tests
+
+```bash
+# All tests
+uv run pytest
+
+# Specific test file
+uv run pytest test/unit_test/test_redis_backend.py
+
+# With verbose output
+uv run pytest -v
+
+# With coverage report
+uv run pytest --cov=abe_plugin --cov-report=term-missing
+```
+
+### Code Quality
+
+```bash
+# Format code
+uv run black abe_plugin/ test/
+
+# Lint code
+uv run pylint abe_plugin/
+
+# Type checking
+uv run mypy abe_plugin/
+
+# Run all pre-commit hooks
+uv run pre-commit run --all-files
+```
+
+### Building Documentation
+
+```bash
+cd docs
+npm install
+npm start  # Development server
+npm run build  # Production build
+```
+
+## Next Steps
+
+Once your development environment is set up:
+
+1. Read the [Development Workflow](./workflow.mdx) guide
+2. Review the [Coding Style](./coding-style.mdx) guidelines
+3. Check out the [CI/CD documentation](./ci-cd/index.mdx)
+4. Start contributing!

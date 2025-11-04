@@ -1,0 +1,89 @@
+---
+id: report-bug
+title: Report a Bug
+sidebar_position: 1
+---
+
+# Reporting Bugs
+
+We appreciate your help in identifying and reporting bugs in abe-redis. A well-documented bug report helps us understand and fix issues quickly.
+
+## Before Reporting
+
+Before submitting a bug report, please:
+
+1. **Check existing issues**: Search the [GitHub Issues](https://github.com/Chisanan232/abe-redis/issues) to see if the bug has already been reported.
+2. **Update to the latest version**: Verify that you're using the latest version of the software, as the bug may have been fixed already.
+3. **Confirm it's a bug**: Make sure the behavior you're experiencing is truly a bug and not expected behavior or a configuration issue.
+
+## How to Submit a Bug Report
+
+Please submit bug reports through our [GitHub Issues](https://github.com/Chisanan232/abe-redis/issues) page using the "Bug Report" template.
+
+### What to Include
+
+An effective bug report should include:
+
+1. **Clear and descriptive title**: Summarize the issue concisely.
+2. **Environment details**:
+   - Operating system and version
+   - Python version
+   - abe-redis version
+   - Installation method (pip, source, Docker)
+   - Any relevant configuration
+
+3. **Steps to reproduce**:
+   - Be specific and provide a step-by-step guide to reproduce the issue
+   - Include example code if applicable
+   - Mention any specific conditions or setup required
+
+4. **Expected behavior**: Describe what you expected to happen.
+
+5. **Actual behavior**: Describe what actually happened.
+
+6. **Error messages**: Include any error messages or logs (use code blocks for formatting).
+
+7. **Screenshots or recordings**: If applicable, include visual evidence of the issue.
+
+8. **Possible solution**: If you have insights into what might be causing the issue or ideas for fixing it, please share them.
+
+## Example Bug Report
+
+```
+Title: Consumer loop stops after publishing batched events
+
+Environment:
+- OS: Ubuntu 24.04
+- Python: 3.12.3
+- abe-redis: 0.0.3
+- Installed via pip
+
+Steps to Reproduce:
+1. Start Redis locally: `docker run -d --name test-redis -p 6379:6379 redis:7-alpine`
+2. Set environment variables: `export QUEUE_BACKEND=redis && export REDIS_URL=redis://localhost:6379/0`
+3. Run the example consumer:
+   ```python
+   asyncio.run(RedisMessageQueueBackend.from_env().consume().__anext__())
+   ```
+4. Publish three messages in quick succession using `backend.publish(...)`
+
+Expected Behavior:
+The consumer should continue iterating over all pending messages.
+
+Actual Behavior:
+The consumer receives the first message and then exits without errors.
+
+Additional Information:
+- Verified that stream retains pending entries via `redis-cli XPENDING slack:events`
+- Logs collected with `QUEUE_BACKEND_DEBUG=true`
+```
+
+## After Submitting
+
+After you've submitted a bug report:
+
+- Be responsive to questions about the issue
+- Provide additional information if requested
+- Consider helping test the fix when it becomes available
+
+Thank you for helping improve abe-redis!

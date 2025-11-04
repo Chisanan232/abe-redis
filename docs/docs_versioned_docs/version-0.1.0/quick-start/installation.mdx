@@ -1,0 +1,377 @@
+---
+id: installation
+title: Installation
+sidebar_position: 2
+---
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+```
+
+# Installing Redis Message Queue Backend
+
+This guide provides step-by-step instructions for installing and configuring the Redis message queue backend for Abstract Backend.
+
+## Step 1: Install Redis Server
+
+First, you need a running Redis server. Choose the method that best fits your environment:
+
+<Tabs>
+<TabItem value="docker" label="Docker (Recommended)" default>
+
+```bash
+# Pull and run Redis 7
+docker run -d \
+  --name test-redis \
+  -p 6379:6379 \
+  redis:7-alpine
+
+# Verify it's running
+docker ps | grep test-redis
+
+# Test connection
+docker exec test-redis redis-cli ping
+```
+
+</TabItem>
+<TabItem value="macos" label="macOS">
+
+```bash
+# Install Redis using Homebrew
+brew install redis
+
+# Start Redis service
+brew services start redis
+
+# Verify it's running
+redis-cli ping  # Should return "PONG"
+```
+
+</TabItem>
+<TabItem value="ubuntu" label="Ubuntu/Debian">
+
+```bash
+# Update package list
+sudo apt update
+
+# Install Redis
+sudo apt install redis-server
+
+# Start Redis service
+sudo systemctl start redis-server
+sudo systemctl enable redis-server
+
+# Verify it's running
+redis-cli ping  # Should return "PONG"
+```
+
+</TabItem>
+<TabItem value="windows" label="Windows">
+
+**Option 1: Docker (Recommended)**
+```powershell
+docker run -d --name test-redis -p 6379:6379 redis:7-alpine
+```
+
+**Option 2: Native Installation**
+1. Download Redis from [GitHub Releases](https://github.com/microsoftarchive/redis/releases)
+2. Extract and run `redis-server.exe`
+3. Test with `redis-cli.exe ping`
+
+</TabItem>
+</Tabs>
+
+## Step 2: Install Python Package
+
+Install the Redis backend package using your preferred package manager:
+
+<Tabs>
+<TabItem value="pip" label="pip" default>
+
+```bash
+# Install from PyPI
+pip install abe-redis
+
+# Verify installation
+pip show abe-redis
+```
+
+</TabItem>
+<TabItem value="uv" label="uv">
+
+```bash
+# Install uv if you haven't already
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Install the package
+uv pip install abe-redis
+
+# Verify installation
+uv pip show abe-redis
+```
+
+</TabItem>
+<TabItem value="poetry" label="poetry">
+
+```bash
+# Add to your project
+poetry add abe-redis
+
+# Verify installation
+poetry show abe-redis
+```
+
+</TabItem>
+</Tabs>
+
+## Step 3: Configure Environment Variables
+
+Set up the required environment variables for the Redis backend:
+
+<Tabs>
+<TabItem value="bash" label="Bash/Zsh" default>
+
+```bash
+# Required: Set backend type
+export QUEUE_BACKEND=redis
+
+# Required: Redis connection URL
+export REDIS_URL=redis://localhost:6379/0
+
+# Optional: Redis password (if authentication is enabled)
+export REDIS_PASSWORD=your_password
+
+# Optional: Enable SSL/TLS
+export REDIS_SSL=true
+
+# Optional: Connection pool size
+export REDIS_MAX_CONNECTIONS=10
+
+# Optional: Stream max length
+export REDIS_STREAM_MAXLEN=10000
+```
+
+**Persist in ~/.bashrc or ~/.zshrc:**
+```bash
+echo 'export QUEUE_BACKEND=redis' >> ~/.bashrc
+echo 'export REDIS_URL=redis://localhost:6379/0' >> ~/.bashrc
+source ~/.bashrc
+```
+
+</TabItem>
+<TabItem value="fish" label="Fish">
+
+```fish
+# Required
+set -x QUEUE_BACKEND redis
+set -x REDIS_URL redis://localhost:6379/0
+
+# Optional
+set -x REDIS_PASSWORD your_password
+set -x REDIS_SSL true
+```
+
+**Persist in ~/.config/fish/config.fish:**
+```fish
+echo 'set -x QUEUE_BACKEND redis' >> ~/.config/fish/config.fish
+echo 'set -x REDIS_URL redis://localhost:6379/0' >> ~/.config/fish/config.fish
+```
+
+</TabItem>
+<TabItem value="windows" label="Windows PowerShell">
+
+```powershell
+# Required
+$env:QUEUE_BACKEND = "redis"
+$env:REDIS_URL = "redis://localhost:6379/0"
+
+# Optional
+$env:REDIS_PASSWORD = "your_password"
+$env:REDIS_SSL = "true"
+```
+
+**Persist (run as Administrator):**
+```powershell
+[System.Environment]::SetEnvironmentVariable("QUEUE_BACKEND", "redis", "User")
+[System.Environment]::SetEnvironmentVariable("REDIS_URL", "redis://localhost:6379/0", "User")
+```
+
+</TabItem>
+<TabItem value="dotenv" label=".env File">
+
+Create a `.env` file in your project root:
+
+```bash
+# .env
+QUEUE_BACKEND=redis
+REDIS_URL=redis://localhost:6379/0
+REDIS_PASSWORD=your_password
+REDIS_SSL=false
+REDIS_MAX_CONNECTIONS=10
+REDIS_STREAM_MAXLEN=10000
+```
+
+Load it in your Python code:
+```python
+from dotenv import load_dotenv
+load_dotenv()
+```
+
+</TabItem>
+</Tabs>
+
+## Step 4: Verify Installation
+
+Test that everything is working correctly:
+
+```python
+# test_redis_backend.py
+import asyncio
+from abe_plugin.backends.message_queue import RedisMessageQueueBackend
+
+
+async def test_connection():
+    # Create backend from environment
+    backend = RedisMessageQueueBackend.from_env()
+
+    # Test publish
+    await backend.publish("slack:test", {"message": "Hello Redis!"})
+    print("✅ Successfully published message")
+
+    # Test consume
+    async for message in backend.consume():
+        print(f"✅ Successfully consumed message: {message}")
+        break
+
+    await backend.close()
+    print("✅ Connection closed successfully")
+
+
+if __name__ == "__main__":
+    asyncio.run(test_connection())
+```
+
+Run the test:
+```bash
+python test_redis_backend.py
+```
+
+Expected output:
+```
+✅ Successfully published message
+✅ Successfully consumed message: {'message': 'Hello Redis!'}
+✅ Connection closed successfully
+```
+
+## Advanced Installation Options
+
+### Installing from Source (For Development)
+
+If you want to contribute or modify the Redis backend:
+
+```bash
+# Clone the repository
+git clone https://github.com/Chisanan232/abe-redis.git
+cd abe-redis
+
+# Install in editable mode
+pip install -e .
+
+# Or with development dependencies
+pip install -e ".[dev]"
+```
+
+### Production Deployment
+
+For production environments, consider:
+
+1. **Redis Configuration**:
+   ```bash
+   # Enable persistence
+   redis-server --appendonly yes --appendfsync everysec
+   
+   # Set password
+   redis-server --requirepass your_secure_password
+   ```
+
+2. **Environment Variables**:
+   ```bash
+   export REDIS_URL=redis://prod-redis.example.com:6379/0
+   export REDIS_PASSWORD=your_secure_password
+   export REDIS_SSL=true
+   export REDIS_MAX_CONNECTIONS=50
+   export REDIS_STREAM_MAXLEN=100000
+   ```
+
+3. **Monitoring**:
+   ```bash
+   # Monitor Redis performance
+   redis-cli --stat
+   
+   # Check stream info
+   redis-cli XINFO STREAM slack:events
+   ```
+
+## Troubleshooting Installation
+
+### Package Installation Fails
+
+**Problem**: `pip install` fails with dependency errors
+
+**Solution**:
+```bash
+# Upgrade pip
+python -m pip install --upgrade pip
+
+# Try installing with --no-cache-dir
+pip install --no-cache-dir abe-redis
+
+# Or use a virtual environment
+python -m venv venv
+source venv/bin/activate
+pip install abe-redis
+```
+
+### Redis Connection Refused
+
+**Problem**: `ConnectionError: Error connecting to Redis`
+
+**Solutions**:
+```bash
+# Check if Redis is running
+redis-cli ping
+
+# Check Redis port
+netstat -an | grep 6379
+
+# Verify REDIS_URL format
+echo $REDIS_URL  # Should be redis://host:port/db
+
+# Test connection manually
+redis-cli -h localhost -p 6379 ping
+```
+
+### Import Errors
+
+**Problem**: `ModuleNotFoundError: No module named 'abe_plugin'`
+
+**Solution**:
+```bash
+# Reinstall the package
+pip uninstall abe-redis
+pip install abe-redis
+
+# Verify Python path
+python -c "import sys; print('\n'.join(sys.path))"
+```
+
+## Next Steps
+
+Now that you have the Redis backend installed:
+
+1. 🚀 **[Quick Start Guide](./quick-start)** - Learn usage patterns and examples
+2. 📚 **[API Reference](../api-references/api-references)** - Explore the complete API
+3. 🤝 **[Contributing](../contribute/contribute)** - Help improve the Redis backend
+
+Ready to start using the Redis backend? Check out the [Quick Start Guide](./quick-start) for usage examples!
