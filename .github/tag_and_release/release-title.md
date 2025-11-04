@@ -1,1 +1,1 @@
-v0.1.0 - Newborn project about plugin by Redis 🍻
+v0.1.0 - Rule and manage by *abstract-backend* 🗃️
