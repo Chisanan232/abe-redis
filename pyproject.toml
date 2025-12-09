@@ -16,6 +16,7 @@ keywords = [
     "message-queue",
     "implementation",
     "implement-layer",
+    "redis",
 ]
 classifiers = [
     "Development Status :: 3 - Alpha",
