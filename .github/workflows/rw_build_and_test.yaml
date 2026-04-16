@@ -48,6 +48,7 @@ jobs:
     uses: Chisanan232/GitHub-Action_Reusable_Workflows-Python/.github/workflows/rw_organize_test_cov_reports.yaml@master
     with:
       test_type: unit-test
+      source_folder: abe_plugin
 
   integration-test_codecov:
 #    name: For unit test, organize and generate the testing report and upload it to Codecov
@@ -59,6 +60,7 @@ jobs:
     uses: Chisanan232/GitHub-Action_Reusable_Workflows-Python/.github/workflows/rw_organize_test_cov_reports.yaml@master
     with:
       test_type: integration-test
+      source_folder: abe_plugin
 
   all_test_codecov:
 #    name: Organize and generate the testing report and upload it to Codecov
@@ -70,3 +72,4 @@ jobs:
     uses: Chisanan232/GitHub-Action_Reusable_Workflows-Python/.github/workflows/rw_organize_test_cov_reports.yaml@master
     with:
       test_type: all-test
+      source_folder: abe_plugin
